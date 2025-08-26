@@ -14,13 +14,10 @@ async function authorisation(req, res, next) {
     }
     const token = authHeader.split(" ")[1]; 
     const decoded = jwt.verify(token, SECRET_KEY);
-    if (!decoded || !decoded.id) {
-      throw new TokenError("Token expired or invalid");
-    }
     req.user = decoded;
     next();
   } catch (err) {
-    next(err); 
+       throw new TokenError("Token expired or invalid");
   }
 }
 

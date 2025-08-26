@@ -21,10 +21,10 @@ const studentSchema = new mongoose.Schema(
       ],
     },
     age: {
-      type: number,
+      type: Number,
       required: [true, "Age is required"],
       min: [1, "Age must be at least 4"]},
-    class: {
+    studentClass: {
       type: String,
       required: [true, "Class is required"],
   },

@@ -34,10 +34,10 @@ async function AddStudent(req,res,next){
     }
 
         if(req.body?.id){
-            const result =await studentService?.updateUserService(req.body)
+            const result =await studentService?.updateStudentService(req.body)
             res.success(200,{name:result.name},"user Updated succesfully")
         }else{
-            const result = await studentService?.createUserService(req.body)
+            const result = await studentService?.createStudentService(req.body)
             res.success(200,{name:result.name},"User created succsfully")
         }
     }catch(error){

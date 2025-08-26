@@ -3,7 +3,7 @@ const { NotFoundError } = require("@/utility/errors");
 const Student = require("@models/studentModel/studentModel"); 
 
 // Get all students
-async function getAllStudentService() {
+async function getAllStudentService(req) {
 try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -15,7 +15,7 @@ try {
         list:students
      }
   } catch (error) {
-    next(error);
+    throw new Error(error.message||"failed to fetch Data")
   }
 }
 
