@@ -1,6 +1,5 @@
-const mongoose=require("mongoose")
-const bcrypt=require("bcrypt")
-
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,10 +13,10 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true, 
+      unique: true,
       lowercase: true,
       trim: true,
-      immutable:true,
+      immutable: true,
       match: [
         /^\S+@\S+\.\S+$/,
         "Please enter a valid email address",
@@ -26,36 +25,29 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "Password must be at least 6 characters long"],
+      minlength: [6, "Password must be at least 6 characters long"]
+    },
+    refreshToken: {
+      type: String, 
+      default: null,
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
-userSchema.methods.hashpassword=async function (){
 
-  if(!this.password){
-    throw new error("password is required")    
-  }else{
-   console.log("inside hashpassword method",this.password)
-    const hashedPassword = await bcrypt.hash(this.password, 10);
-    console.log("hashed password",hashedPassword)
-    return hashedPassword    
-  }
-}
-
-userSchema.methods.comparePassword=async function (email,password){
-  if(!this.password){
-    throw new error("password is required")    
-  }else{
-    const user =await User.findOne({email:email})
-    return bcrypt.compare(password,user?.password)
-  }
-}
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
 
-// Create and export model
+userSchema.methods.comparePassword = async function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
+};
+
 const User = mongoose.model("User", userSchema);
-module.exports= User;
+module.exports = User;

@@ -30,7 +30,6 @@ async function getUserByIdService(userId) {
 async function createUserService(userData) {
   try {
     const newUser = new User(userData);
-    newUser.password=await newUser.hashpassword();
     const savedUser = await newUser.save(); 
     return savedUser;
   } catch (error) {

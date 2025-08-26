@@ -1,6 +1,6 @@
 
 const userService=require("@services/userService")
-const generateToken=require("@utility/auth")
+const {generateToken,refreshTokenHandler}=require("@utility/auth")
 
 
 async function getAlluser(req,res,next){
@@ -40,8 +40,21 @@ async function createUser(req,res,next){
 
 async function loginUser(req,res,next){
     try {
+
+        if(!req.body?.email || !req.body?.password){
+            throw new Error("email and password required")
+        }
         const result=await generateToken(req,res)
         res.success(200,result,"login succesfully")
+    } catch (error) {
+        next(error)
+    }
+}
+
+async function refreshToken(req,res,next){
+    try {
+        const result=await refreshTokenHandler(req,res)
+        res.success(200,result,"token refreshed succesfully")
     } catch (error) {
         next(error)
     }
@@ -61,5 +74,6 @@ module.exports={
     getUserById,
     createUser,
     deleteUser,
-    loginUser
+    loginUser,
+    refreshToken
 }

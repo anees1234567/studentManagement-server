@@ -1,23 +1,27 @@
-const jwt =require("jsonwebtoken")
-const {SECRET_KEY}=require("@config/index")
-const {TokenError}= require("@utility/errors")
-async function authorisation(req,res,next){
- 
-    const openPaths = ['/user/createUser', '/user/loginUser'];
+const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = require("@config/index");
+const { TokenError } = require("@utility/errors");
+
+async function authorisation(req, res, next) {
+  try {
+    const openPaths = ["/user/createUser", "/user/loginUser", "/user/refresh"];
     if (openPaths.includes(req.path)) {
-        return next();
+      return next();
     }
-    const token =req.cookie.token
-    if(!token){
-         throw new TokenError("authorisation failed")
-    }else{
-       const decode= jwt.verify(token,SECRET_KEY)
-       if (!decode.mailCode){
-        throw new TokenError("token expired ,authorisation failed")
-       }else{
-        next()
-       }
-           
+    const authHeader = req.headers["authorization"];
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new TokenError("Authorization failed: No token provided");
     }
+    const token = authHeader.split(" ")[1]; 
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (!decoded || !decoded.id) {
+      throw new TokenError("Token expired or invalid");
+    }
+    req.user = decoded;
+    next();
+  } catch (err) {
+    next(err); 
+  }
 }
-module.exports=authorisation
+
+module.exports = authorisation;
