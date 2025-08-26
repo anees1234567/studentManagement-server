@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@models/*": ["src/Models/*"],
+      "@routes/*": ["src/routes/*"],
+      "@controller/*": ["src/Controller/*"],
+      "@services/*": ["src/services/*"],
+      "@middlewares/*": ["src/Middleware/*"],
+      "@config/*": ["src/config/*"],
+      "@utility/*":["src/utility/*"],
+      "@socket/*":["src/socket/*"]
+    }
+  },
+  "include": ["src"]
+}
