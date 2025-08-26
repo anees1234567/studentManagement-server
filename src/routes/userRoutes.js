@@ -1,6 +1,6 @@
 const express=require("express")
 const Router=express.Router()
-const {getAlluser,createUser,getUserById,deleteUser, loginUser,refreshToken}=require("@controller/userController")
+const {getAlluser,createUser,getUserById,deleteUser,loginUser,refreshToken}=require("@controller/userController")
 
 Router.get("/getAllUser",getAlluser)
 Router.post("/loginUser",loginUser)
