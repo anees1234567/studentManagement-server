@@ -9,6 +9,7 @@ const ResponseHandlerMiddleware=require("@middlewares/ResposeHandler")
 const ErrorHandlerMiddleware=require("@middlewares/ErrorHandler")
 const authorisationMiddleware=require("@middlewares/Authorisation")
 const UserRoutes=require("@routes/userRoutes")
+const StudentRoutes=require("@routes/studentRoutes/Routes")
 const { NotFoundError } = require("@/utility/errors");
 
 
@@ -25,6 +26,7 @@ app.use(ResponseHandlerMiddleware)
 app.use(authorisationMiddleware)
 // Route handler middlewares
 app.use("/user",UserRoutes)
+app.use("/students",StudentRoutes)
 
 
 app.use((req,res,next)=>{
