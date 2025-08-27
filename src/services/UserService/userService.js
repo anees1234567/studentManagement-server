@@ -12,7 +12,7 @@ async function getAllUsersService() {
   }
 }
 
-// Get a user by ID
+
 async function getUserByIdService(userId) {
   try {
     const user = await User.findById(userId); 
@@ -66,7 +66,7 @@ async function updateUserService(userData) {
   }
 }
 
-// Delete a user by ID
+
 async function deleteUserService(userId) {
   try {
     const deletedUser = await User.findByIdAndDelete(userId); 
