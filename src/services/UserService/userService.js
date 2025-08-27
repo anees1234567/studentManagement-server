@@ -1,6 +1,6 @@
 // services/userService.js
 const { NotFoundError } = require("@/utility/errors");
-const User = require("@models/UserModel"); 
+const User = require("@models/UserModel/UserModel"); 
 
 // Get all users
 async function getAllUsersService() {

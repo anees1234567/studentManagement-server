@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("@models/UserModel");
+const User = require("@models/UserModel/UserModel");
 const { SECRET_KEY } = require("@config/index");
 const { REFRESH_SECRET } = require("@config/index");
 const { NotFoundError } = require("@utility/errors");

@@ -8,7 +8,7 @@ const {HOST,PORT}=require("@config/index")
 const ResponseHandlerMiddleware=require("@middlewares/ResposeHandler")
 const ErrorHandlerMiddleware=require("@middlewares/ErrorHandler")
 const authorisationMiddleware=require("@middlewares/Authorisation")
-const UserRoutes=require("@routes/userRoutes")
+const UserRoutes=require("@routes/userRoutes/userRoutes")
 const StudentRoutes=require("@routes/studentRoutes/Routes")
 const { NotFoundError } = require("@/utility/errors");
 

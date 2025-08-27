@@ -4,20 +4,36 @@ const Student = require("@models/studentModel/studentModel");
 
 // Get all students
 async function getAllStudentService(req) {
-try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-    const students = await Student.find().skip(skip).limit(limit);
-    const totalStudents = await Student.countDocuments();
+  try {
+  
+    const page = parseInt(req.query.pageNumber) || 0; 
+    const limit = parseInt(req.query.pageSize) || 10; 
+    const searchText = req.query.searchText || '';
+
+
+    if (isNaN(page) || page < 0) throw new Error('Invalid page number');
+    if (isNaN(limit) || limit <= 0) throw new Error('Invalid page size');
+    const skip = page * limit;
+    const filter = {};
+    if (searchText) {
+      filter.name = { $regex: searchText, $options: 'i' }; 
+    }
+    const [students, totalStudents] = await Promise.all([
+      Student.find(filter).skip(skip).limit(limit).exec(),
+      Student.countDocuments(filter).exec(),
+    ]);
+
     return {
-        totalCount:totalStudents,
-        list:students
-     }
+
+      items: students,
+      totalCount: totalStudents,
+     
+    };
   } catch (error) {
-    throw new Error(error.message||"failed to fetch Data")
+    throw new Error(`Failed to fetch students: ${error.message}`);
   }
 }
+
 
 // Get a user by ID
 async function getStudentByIdService(Id) {
@@ -86,7 +102,7 @@ async function deleteStudentService(Id) {
     if (!deletedStudent) {
         throw new NotFoundError(`Student not found for deletion.`); 
     }
-    return deletedUser;
+    return deletedStudent;
   } catch (error) {
 
     console.error("Error deleting user:", error);

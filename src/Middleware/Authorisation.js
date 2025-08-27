@@ -16,8 +16,8 @@ async function authorisation(req, res, next) {
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
     next();
-  } catch (err) {
-       throw new TokenError("Token expired or invalid");
+  } catch (error) {
+       throw new TokenError(error.message);
   }
 }
 

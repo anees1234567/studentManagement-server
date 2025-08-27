@@ -1,5 +1,5 @@
 
-const userService=require("@services/userService")
+const userService=require("@services/UserService/userService")
 const {generateToken,refreshTokenHandler}=require("@utility/auth")
 
 

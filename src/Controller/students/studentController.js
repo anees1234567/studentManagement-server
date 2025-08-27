@@ -52,7 +52,7 @@ async function deleteStudent(req,res,next){
         if(!userId){
             throw  new BadRequestError("id Not found")
         }
-        const result=await studentService?.deleteUserService(userId)
+        const result=await studentService?.deleteStudentService(userId)
         res.success(200,result,"deleted succesfully")
     } catch (error) {
         next(error)
